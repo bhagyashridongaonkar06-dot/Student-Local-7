@@ -1,0 +1,12 @@
+.forbagde{
+    font-size: 100%;
+    display: inline-block;
+    color: red !important;
+    animation: all ease-in-out .6s;
+}
+
+.forbagde:hover{
+    color: white;
+}
+
+
