@@ -31,6 +31,16 @@ if (getData) {
     localStorage.setItem('course', JSON.stringify(course))
 }
 
+//SNACKBAR FUNCTION 
+
+function snackbar(msg, icon){
+    Swal.fire({
+        title : msg,
+        icon : icon,
+        timer : 3000
+    })
+}
+
 // cl(course)
 function onCreateCourseList(arr) {
     let res = '';
@@ -90,6 +100,7 @@ function onSubmit(eve) {
                                     <td><i onclick="onEdit(this)" class="fa-regular fa-2x fa-pen-to-square text-success"></i></td>
                                      <td><i onclick="onDelete(this)" class="fa-regular fa-2x fa-trash-can text-danger"></i></td>`
     coursesList.append(newCr)
+    snackbar(`New course with name ${courseObj.name} added successfully`, 'success')
 }
 
 function onEdit(ele) {
@@ -127,12 +138,22 @@ function onUpdate() {
     let Index = course.findIndex(e => e.id === updateId)
     course[Index] = updateObj
 
-    let trs = document.getElementById(updateId).children
-    trs[1].innerHTML = updateObj.name
-    trs[2].innerHTML = updateObj.duration
-    trs[3].innerHTML = updateObj.fees
-    trs[4].innerHTML = updateObj.mode
+    // let trs = document.getElementById(updateId).children
+    // trs[1].innerHTML = updateObj.name
+    // trs[2].innerHTML = updateObj.duration
+    // trs[3].innerHTML = updateObj.fees
+    // trs[4].innerHTML = updateObj.mode
 
+    let tr = document.getElementById(updateId)
+    tr.innerHTML = `  <td>${course.length}</td> 
+                 <td>${updateObj.name}</td>
+                                    <td>${updateObj.duration}</td>
+                                    <td>${updateObj.fees}</td>
+                                    <td><span class="badge ${updateObj.mode === "Offline" ? "badge-warning" : "badge-success"} p-2 forbadge text-white">${updateObj.mode === "Offline" ? "Offline" : "Online"}</span></td>
+                                    <td><i onclick="onEdit(this)" class="fa-regular fa-2x fa-pen-to-square text-success"></i></td>
+                                     <td><i onclick="onDelete(this)" class="fa-regular fa-2x fa-trash-can text-danger"></i></td>`
+
+    snackbar(`Course with name ${updateObj.name} updated successfully`, 'success')
 
     addCourseBtn.classList.remove('d-none')
     updateCourseBtn.classList.add('d-none')
@@ -156,6 +177,8 @@ function onDelete(ele) {
             let getIndex = course.findIndex(e => e.id === deleteId)
         course.splice(getIndex, 1)
         ele.closest('tr').remove()
+
+        snackbar(`Course with id ${deleteId} deleted successfully`, 'success')
 
         // let ids = document.getElementById(coursesList)
         let trs = document.querySelectorAll('#coursesList tr td:first-child')
